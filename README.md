@@ -1,9 +1,13 @@
 # EasyPost Titanium Client
 
-A full featured but simple to use EasyPost Client for Appcelerator Titanium.
+A full featured but simple to use EasyPost Client for Appcelerator Titanium. For more detailed documentation about EasyPost's API, check out - https://www.geteasypost.com/docs/curl.
 
 ## Features
 * Verify addresses 
+* Get shipping rate quotes
+* Compare shipping rates
+* Buy postage
+* List postage used
 
 ## Usage Example
 
@@ -31,22 +35,62 @@ Here's a list of methods the client supports.
 
 Verifies an address.
 
+```javascript
+easypost.verify({
+    street1: '2100 Sandhill Road',
+    city: 'Menlo Park',
+    state: 'CA'
+}, function(response){
+    alert(response);
+});
+```
+
+EasyPost documentation:
+https://www.geteasypost.com/docs/curl#addresses
+
 ### rates(params, callback)
 
 Checks shipping rates.
 
+```javascript
+easypost.rates({
+    to: {
+        zip: '94107'
+    },
+    from: {
+        zip: '94019'
+    },
+    parcel: {
+        length: '10.0',
+        width: '5.0',
+        height: '8.0',
+        weight: '100.0'
+    }
+}, function(response){
+    alert(response);
+});
+```
+
+EasyPost documentation:
+https://www.geteasypost.com/docs/curl#postage-rates
+
 ### compare(params, callback)
 
-Compares shipping rates.
+Compares shipping rates. Documentation coming soon.
+
+EasyPost documentation:
+https://www.geteasypost.com/docs/curl#postage-rates
 
 ### buy(params, callback)
 
-Buys shipping.
+Buys shipping. Documentation coming soon.
 
-### get(filename, callback)
-
-Gets a filename.
+EasyPost documentation:
+https://www.geteasypost.com/docs/curl#postage-buying
 
 ### listAll(callback)
 
-Lists all postage orders.
+Lists all postage orders. Documentation coming soon.
+
+EasyPost documentation:
+https://www.geteasypost.com/docs/curl#postage-lookups
