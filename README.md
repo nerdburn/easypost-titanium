@@ -3,13 +3,9 @@
 A full featured but simple to use EasyPost Client for Appcelerator Titanium.
 
 ## Features
-* Verify addresses
-* Check postage rates
-* Compare postage rates
-* Buy postage
-* List postage
+* Verify addresses 
 
-## Usage
+## Usage Example
 
 Simply require the easypost module and initiate the easypost.Client with your API key.
 
@@ -26,3 +22,31 @@ easypost.verify({
     alert(response);
 });
 ```
+
+## Methods
+
+Here's a list of methods the client supports.
+
+### verify(params, callback)
+
+Verifies an address.
+
+### rates(params, callback)
+
+Checks shipping rates.
+
+### compare(params, callback)
+
+Compares shipping rates.
+
+### buy(params, callback)
+
+Buys shipping.
+
+### get(filename, callback)
+
+Gets a filename.
+
+### listAll(callback)
+
+Lists all postage orders.
