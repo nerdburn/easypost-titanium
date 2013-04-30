@@ -1,6 +1,6 @@
 # EasyPost Titanium Client
 
-A full featured but simple to use EasyPost Client for Appcelerator Titanium. For more detailed documentation about EasyPost's API, check out - https://www.geteasypost.com/docs/curl.
+A full featured but simple to use EasyPost Client for Appcelerator Titanium.
 
 ## Features
 * Verify addresses 
@@ -29,7 +29,9 @@ easypost.verify({
 
 ## Methods
 
-Here's a list of methods the client supports.
+Here's a list of methods the client supports. For detailed information about all the methods EasyPost's API supports, please visit: 
+
+https://www.geteasypost.com/docs/curl
 
 ### verify(params, callback)
 
