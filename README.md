@@ -1,28 +1,28 @@
 # EasyPost Titanium Client
 
-A simple EasyPost client module for Titanium.
+A full featured but simple to use EasyPost Client for Appcelerator Titanium.
 
 ## Features
 * Verify addresses
 * Check postage rates
 * Compare postage rates
 * Buy postage
-
-## Installation
-
-Simply place easypost.js into your Titanium project, then require it as specified below.
+* List postage
 
 ## Usage
 
-```javascript
-// require easypost and send API key
-var easypost = new (require('easypost').Client)('Your API Key Goes Here');
+Simply require the easypost module and initiate the easypost.Client with your API key.
 
-// verify an address
-var response = easypost.verify({
-    address: {
-        street1: '2100 Sandhill Road',
-        city: 'Menlo Park'
-    }
+All requests are asynchronous, so a callback is required for data handling, as the verify request below shows.
+
+```javascript
+var easypost = new (require('easypost').Client)('Your API Key Here', true);
+
+easypost.verify({
+    street1: '2100 Sandhill Road',
+    city: 'Menlo Park',
+    state: 'CA'
+}, function(response){
+    alert(response);
 });
 ```

@@ -1,91 +1,119 @@
-function Client(apiKey) {
+function Client(apiKey, debug) {
 	this.apiKey = apiKey;
 	this.baseUrl = 'https://www.geteasypost.com/api';
-	Ti.API.info('EasyPost: Init with key: ' + this.apiKey);
+    this.debug = false;	
+	if(typeof debug !== 'undefined') {
+        if(debug === true)
+            this.debug = true;        
+    }
+    if(this.debug)
+	    Ti.API.info('EasyPost: Init with key: ' + this.apiKey);
 }
 exports.Client = Client;
 
 Client.prototype.setApiKey = function(apiKey) {
     var self = this;
     self.apiKey = apiKey;
-	Ti.API.info('EasyPost: Setting API key: ' + self.apiKey);
+    if(self.debug)    
+	    Ti.API.info('EasyPost: Setting API key: ' + self.apiKey);
 }
 
 Client.prototype.apiUrl = function(type, action) {
     var self = this;
     var url = self.baseUrl + '/' + type + '/' + action;
-	Ti.API.info('EasyPost: Setting API URL: ' + url);        
+    if(self.debug)        
+	    Ti.API.info('EasyPost: Setting API URL: ' + url);        
     return url;
 }
 
-Client.prototype.post = function(url, params) {
+Client.prototype.post = function(url, params, callback) {
     var self = this;
-    Ti.API.info('EasyPost: Init POST with API Key: ' + self.apiKey);
+    if(self.debug)        
+        Ti.API.info('EasyPost: Init POST with API Key: ' + self.apiKey);
 	var xhr = Ti.Network.createHTTPClient({
 	    onload: function() {
     	    var response = JSON.parse(this.responseText);
-            Ti.API.info('EasyPost: Response: ' + response.success);
-            return response;
+    	    if(self.debug)
+                Ti.API.info('EasyPost: Success: ' + JSON.stringify(response));
+            callback(response);
     	},
     	onerror: function(e) {
     	    var response = JSON.parse(this.responseText);
-            Ti.API.info('EasyPost: Response: ' + response.error); 
-            return response;	    
+    	    if(self.debug)
+                Ti.API.info('EasyPost: Error: ' + JSON.stringify(response));
+            cb(response);
     	}
-	});	
-	
-	Ti.API.info('EasyPost: Url: ' + url);
-	Ti.API.info('EasyPost: Params: ' + JSON.stringify(params));
+	});
 	
     var authstr = 'Basic ' + Titanium.Utils.base64encode(self.apiKey+':');
+    var data = self.queryString(params);
 	
 	xhr.open('POST', url);
     xhr.setRequestHeader('Authorization', authstr);
-	xhr.send({
-	    address: {
-	        street: '2100 Sand Hill Road',
-	        city: 'Menlo Park'
-	    }
-	});
+	xhr.send(data);
 }
 
-Client.prototype.verify = function(address) {
+Client.prototype.verify = function(address, cb) {
     var self = this;
     var params = {    
         'address': address
     }
-	Ti.API.info('EasyPost: Verify: ' + address);
-    return self.post(self.apiUrl('address', 'verify'), params);
+    if(self.debug)        
+	    Ti.API.info('EasyPost: Verify: ' + JSON.stringify(address));
+    self.post(self.apiUrl('address', 'verify'), params, cb);
 }
 
-Client.prototype.rates = function(params) {
+Client.prototype.rates = function(params, cb) {
     var self = this;
-	Ti.API.info('EasyPost: Rates: ' + JSON.stringify(params));    
-    return self.post(self.apiUrl('postage', 'rates'), params);
+    if(self.debug)    
+    	Ti.API.info('EasyPost: Rates: ' + JSON.stringify(params));    
+    return self.post(self.apiUrl('postage', 'rates'), params, cb);
 }
 
-Client.prototype.compare = function(params) {
+Client.prototype.compare = function(params, cb) {
     var self = this;
-	Ti.API.info('EasyPost: Compare: ' + JSON.stringify(params));
-    return self.rates(params);
+    if(self.debug)    
+    	Ti.API.info('EasyPost: Compare: ' + JSON.stringify(params));
+    return self.rates(params, cb);
 }
 
-Client.prototype.buy = function(params) {
+Client.prototype.buy = function(params, cb) {
     var self = this;
-	Ti.API.info('EasyPost: Buy: ' + JSON.stringify(params));    
-    return self.post(self.apiUrl('postage', "buy"), params);
+    if(self.debug)        
+	    Ti.API.info('EasyPost: Buy: ' + JSON.stringify(params));    
+    return self.post(self.apiUrl('postage', "buy"), params, cb);
 }
 
-Client.prototype.get = function(filename) {
+Client.prototype.get = function(filename, cb) {
     var self = this;
     var params = {
         'label_file_name': filename
     }
-	Ti.API.info('EasyPost: Get: ' + filename);     
-    return self.post(self.apiUrl('postage', "get"), params);
+    if(self.debug)        
+	    Ti.API.info('EasyPost: Get: ' + filename);     
+    return self.post(self.apiUrl('postage', "get"), params, cb);
 }
 
-Client.prototype.listAll = function() {
+Client.prototype.listAll = function(cb) {
     var self = this;
-    return self.post(self.apiUrl('postage', "list"), {});
+    return self.post(self.apiUrl('postage', "list"), {}, cb);
+}
+
+Client.prototype.queryString = function(data) {
+    var self = this;   
+    for(var key in data) {
+        if(typeof data[key] === 'object' && data[key] !== null) 
+        {
+            var o = data[key];
+            delete data[key];
+            for(var k in o) {
+                var new_key = key + "[" + k + "]"
+                data[new_key] = o[k]
+            }
+        }
+    }
+    var arr = []; 
+    for(key in data)
+        arr.push(key + '=' + data[key]);
+    return arr.join("&");
 }
