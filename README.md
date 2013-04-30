@@ -47,9 +47,6 @@ easypost.verify({
 });
 ```
 
-EasyPost documentation:
-https://www.geteasypost.com/docs/curl#addresses
-
 ### rates(params, callback)
 
 Checks shipping rates.
@@ -73,26 +70,14 @@ easypost.rates({
 });
 ```
 
-EasyPost documentation:
-https://www.geteasypost.com/docs/curl#postage-rates
-
 ### compare(params, callback)
 
 Compares shipping rates. Documentation coming soon.
-
-EasyPost documentation:
-https://www.geteasypost.com/docs/curl#postage-rates
 
 ### buy(params, callback)
 
 Buys shipping. Documentation coming soon.
 
-EasyPost documentation:
-https://www.geteasypost.com/docs/curl#postage-buying
-
 ### listAll(callback)
 
 Lists all postage orders. Documentation coming soon.
-
-EasyPost documentation:
-https://www.geteasypost.com/docs/curl#postage-lookups
