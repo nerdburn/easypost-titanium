@@ -1,13 +1,13 @@
 function Client(apiKey, debug) {
 	this.apiKey = apiKey;
 	this.baseUrl = 'https://www.geteasypost.com/api';
-    this.debug = false;	
+	this.debug = false;	
 	if(typeof debug !== 'undefined') {
-        if(debug === true)
-            this.debug = true;        
-    }
-    if(this.debug)
-	    Ti.API.info('EasyPost: Init with key: ' + this.apiKey);
+		if(debug === true)
+			this.debug = true;        
+	}
+	if(this.debug)
+		Ti.API.info('EasyPost: Init with key: ' + this.apiKey);
 }
 exports.Client = Client;
 
