@@ -2,6 +2,8 @@
 
 A full featured but simple to use EasyPost Client for Appcelerator Titanium.
 
+![](http://media.tumblr.com/110479b3c88131b1ff7b4144b2d8fa79/tumblr_inline_mmfz8meiX11qz4rgp.png)
+
 ## Features
 * Verify addresses 
 * Get shipping rate quotes
